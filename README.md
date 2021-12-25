@@ -10,7 +10,7 @@ The following approaches cause deadlock:
 - `AsyncMethod().GetAwaiter().GetResult()`
 - `AsyncMethod().ConfigureAwait(false).GetAwaiter().GetResult()` if some nested method calls `await` without `ConfigureAwait(false)`
 
-The following approches work correctly:
+The following approaches work correctly:
 
 - `Task.Run(() => AsyncMethod()).Result`
 - `Task.Run(async () => await AsyncMethod()).Result`
