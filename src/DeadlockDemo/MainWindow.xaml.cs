@@ -32,7 +32,6 @@ namespace DeadlockDemo
 				(Method4, WaitTaskSynchronously4),
 				(Method5, WaitTaskSynchronously5),
 				(Method6, WaitTaskSynchronously6),
-				(Method7, WaitTaskSynchronously7),
 			};
 
 			Func<string> call = null;
@@ -55,43 +54,32 @@ namespace DeadlockDemo
 
 		private static string WaitTaskSynchronously1()
 		{
-			var task = AsyncMethod();
-			return task.Result;
+			return AsyncMethod().Result;
 		}
 
 		private static string WaitTaskSynchronously2()
 		{
-			var task = AsyncMethod();
-			return task.GetAwaiter().GetResult();
+			return AsyncMethod().GetAwaiter().GetResult();
 		}
 
 		private static string WaitTaskSynchronously3()
 		{
-			var task = AsyncMethod();
-			return Task.Run(() => task).Result;
+			return AsyncMethod().ConfigureAwait(false).GetAwaiter().GetResult();
 		}
 
 		private static string WaitTaskSynchronously4()
 		{
-			var task = AsyncMethod();
-			return Task.Run(async () => await task).Result;
+			return Task.Run(() => AsyncMethod()).Result;
 		}
 
 		private static string WaitTaskSynchronously5()
 		{
-			var task = AsyncMethod();
-			return task.ConfigureAwait(false).GetAwaiter().GetResult();
+			return Task.Run(async () => await AsyncMethod()).Result;
 		}
 
 		private static string WaitTaskSynchronously6()
 		{
-			var task = AsyncMethodWithConfigureAwait();
-			return task.Result;
-		}
-
-		private static string WaitTaskSynchronously7()
-		{
-			return AsyncHelper.RunSync(AsyncMethod);
+			return AsyncMethodWithConfigureAwait().Result;
 		}
 
 		private static async Task<string> AsyncMethod()
